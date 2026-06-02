@@ -490,6 +490,9 @@ def plugin_run(plugin_name, def_name, args):
     
     if not is_php:
         _name = "{}_main".format(plugin_name)
+        # [PATCH] Add plugin path to sys.path so __import__ can find the module
+        if plugin_path not in sys.path:
+            sys.path.insert(0, plugin_path)
         plugin_main = __import__(_name)
         
         if not hasattr(plugin_main, _name):
